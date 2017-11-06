@@ -45,9 +45,9 @@ def planParty(budget,drinkFile,foodFile,peopleFile):
         newPerson = Person()
         newPerson.name = people[i*3]
         newPerson.drinks = set(people[i*3+1].strip().split(','))
-        newPerson.drinkVal = 1/len(newPerson.drinks)+1/(len(people)/20)
+        newPerson.drinkVal = (1/len(newPerson.drinks))
         newPerson.food = set(people[i*3+2].strip().split(','))
-        newPerson.foodVal = 1/len(newPerson.food)+1/(len(people)/20)
+        newPerson.foodVal = (1/len(newPerson.food))
         peopleList.append(newPerson)
         for foodItem in newPerson.food:
             foodMap[foodItem][1]+=newPerson.foodVal
@@ -110,15 +110,46 @@ def planParty(budget,drinkFile,foodFile,peopleFile):
             j -= allOptions[itemList[i-1]][1]
         i -=1
         
+    # Post Processing Statistics
+    drinkSet = set(drinkChoice)
+    foodSet = set(foodChoice)
+    noDrink = 0
+    noFood = 0
+    nothing = 0
+    averageDrink = 0
+    averageFood = 0
+    for person in peopleList:
+        drinkOption = 0
+        foodOption = 0
+        for drink in person.drinks:
+            if drink in drinkSet:
+                drinkOption+=1
+        for item in person.food:
+            if item in foodSet:
+                foodOption+=1
+        averageFood += foodOption
+        averageDrink+=drinkOption
+        if drinkOption == 0:
+            noDrink+=1
+        if foodOption == 0:
+            noFood+=1
+        if foodOption == 0 and drinkOption == 0:
+            nothing+=1      
+    averageDrink/=len(peopleList)
+    averageFood/=len(peopleList)
+    
+    #Print statistics based on our algorithm
+    print(str(noDrink) + ' people with no drink preferences chosen.\n')
+    print(str(noFood) + ' people with no food preferences chosen.\n')
+    print(str(nothing) + ' people with no food or drink preferences chosen.\n')
+    print(str(averageDrink) + ' average preferenced drinks per person.\n')
+    print(str(averageFood) + ' average preferenced food items per person.\n')
     return [drinkChoice,foodChoice]
 
 # Run default if main file
 if __name__ == "__main__":
     # 100 drinks, foods, and 1000 people
-    budget = 1000
+    budget = 100
     partyPlan = planParty(budget,'drinks.txt','food.txt','people.txt')
     drinks = partyPlan[0]
     food = partyPlan[1]
-    
-    print(drinks)
-    print(food)
