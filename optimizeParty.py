@@ -145,12 +145,14 @@ def planParty(budget,drinkFile,foodFile,peopleFile):
     print(str(nothing) + ' people with no food or drink preferences chosen.\n')
     print(str(averageDrink) + ' average preferenced drinks per person.\n')
     print(str(averageFood) + ' average preferenced food items per person.\n')
+    print(str(len(drinkSet))+' total drinks chosen for the party.\n')
+    print(str(len(foodSet))+' total food items chosen for the party.\n')
     return [drinkChoice,foodChoice]
 
 # Run default if main file
 if __name__ == "__main__":
     # 100 drinks, foods, and 1000 people
-    budget = 100
+    budget = 150
     partyPlan = planParty(budget,'drinks.txt','food.txt','people.txt')
     drinks = partyPlan[0]
     food = partyPlan[1]

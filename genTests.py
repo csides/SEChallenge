@@ -43,7 +43,7 @@ def genDrinks(n,c):
     for i in range(n):
         # Random string for each drink, n/10 characters long to minimize collision 
         newDrink = "".join([random.choice(string.ascii_letters) for i in range(int(n/10))])
-        newCost = random.randint(0,c)
+        newCost = random.randint(1,c)
         drinkFile.write(newDrink+':'+str(newCost)+'\n')
     drinkFile.close()
 
@@ -53,7 +53,7 @@ def genFood(n,c):
     for i in range(n):
         # Random string for each food, n/10 characters long to minimize collision 
         newFood = "".join([random.choice(string.ascii_letters) for i in range(int(n/10))])
-        newCost = random.randint(0,c)
+        newCost = random.randint(1,c)
         foodFile.write(newFood+':'+str(newCost)+'\n')
     foodFile.close()
 
