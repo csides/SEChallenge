@@ -1,3 +1,5 @@
+https://github.com/csides/SEChallenge/
+
 Files Included:
 
 people.txt (test file)
@@ -26,7 +28,16 @@ solution. See http://math.mit.edu/~goemans/18434S06/knapsack-katherine.pdf for m
 approximation algorithm.
 
 Optimization Approach:
-
+We optimized the value of each item (and thus the likelihood of it being chosen) according to the total 
+amount of people, the number of people that liked it, and the number of things that each person liked of
+the people that liked it. This was done by assigning each person a 'food value' and a 'drink value'. Each
+person's food/drink value would decrease based off the number of food and drinks they liked. This is a
+valid approach, as people who like a lot of items, are more likely to have a favorable option selected
+in the final choice of which items to buy. The result equation for the food (or drink) value for each person
+was: foodValue = 1/(number of food items liked) + 1/(total number of people)^(0.3). As the value for each item
+was calculated by summing the item value for each person that preferred it, this gave an advantage in terms of
+preference weight (how much their preference would sway the algorithm) according to how many items they liked,
+in the aims of having everyone have an item that they liked.
 
 Assumptions Made:
 The knapsack algorithm used requires integer costs (weights) of the items (drinks and food items). 
@@ -38,7 +49,12 @@ I assumed that our budget is large enough to purchase any 1 drink and any 1 food
 calculation to guaranteeing one food and one drink at the party.
 
 Successes:
+Our algorithm successfully reduced the number of people that had no food or drink options, when compared to the option where the value of each item was only how many people liked it. Additionally, our algorithm scales well with budget increases, meaning that increasing the budget significantly decreases the number of people with no food or drink options.
 
 Failures:
+Our algorithm, based off value to cost, significantly preferred drinks to food items, as drinks were generated as lower cost items, and had the same preference value per person. This resulted in more drink options being purchased, and less people having a food option they liked.
+
+Conclusion:
+The algorithm in question was a good start to solve the given problem taking into account my overall approach. However, the algorithm has notable flaws that could definitely be improved. One noted approach that could provide significant improvement is the dynamic re-weighting of items as the process goes on. This would steadily give more weight to items that satisfy more of the remaining people, aiming to achieve a solution where the most people have at least one option at the lowest cost.
 
 
