@@ -9,6 +9,8 @@ SE Challenge
 @author: Chris
 """
 
+import numpy as np
+
 # This function will plan which food and drinks to buy for
 # A party given peoples preferences and a total budget
 # Input: budget (integer), drinkFile, foodFile, peopleFile (string filename) 
@@ -84,8 +86,31 @@ def planParty(budget,drinkFile,foodFile,peopleFile):
     # Scale all items based on total value
     for item in allOptions:
         allOptions[item][2]/=k
+    
+    #Standard Dynamic Programming Approahc ~O(N^2)
+    valTab = np.zeros((len(allOptions)+1,budget+1)) 
+    itemList = list(allOptions.keys())
+    # Create our maximum value matrix
+    for i in range(1,len(allOptions)+1):
+        for j in range(1,budget+1):
+            if allOptions[itemList[i-1]][1]>j:
+                valTab[i][j]=valTab[i-1][j]
+            else:
+                valTab[i][j]=max(valTab[i-1][j],allOptions[itemList[i-1]][2]+valTab[i-1][j-allOptions[itemList[i-1]][1]])
+   
+    # Recover which items we picked above
+    i = len(allOptions)
+    j = budget
+    while i>0:
+        if abs(valTab[i][j]-valTab[i-1][j-allOptions[itemList[i-1]][1]]-allOptions[itemList[i-1]][2])<.001:
+            if allOptions[itemList[i-1]][0]:
+                foodChoice.append(itemList[i-1])
+            else:
+                drinkChoice.append(itemList[i-1])
+            j -= allOptions[itemList[i-1]][1]
+        i -=1
         
-    return 0
+    return [drinkChoice,foodChoice]
 
 # Run default if main file
 if __name__ == "__main__":
@@ -93,4 +118,7 @@ if __name__ == "__main__":
     budget = 1000
     partyPlan = planParty(budget,'drinks.txt','food.txt','people.txt')
     drinks = partyPlan[0]
-    fppd = partyPlan[1]
+    food = partyPlan[1]
+    
+    print(drinks)
+    print(food)
