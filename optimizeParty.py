@@ -33,6 +33,7 @@ def planParty(budget,drinkFile,foodFile,peopleFile):
     temp = people.readlines()
     people.close();
     people=temp
+
     
     foodMap = {foodItem.split(':')[0]:[int(foodItem.split(':')[1]), 0, 0] for foodItem in food.readlines()}
     drinkMap = {drinkItem.split(':')[0]:[int(drinkItem.split(':')[1]), 0, 0] for drinkItem in drinks.readlines()}
@@ -45,9 +46,9 @@ def planParty(budget,drinkFile,foodFile,peopleFile):
         newPerson = Person()
         newPerson.name = people[i*3]
         newPerson.drinks = set(people[i*3+1].strip().split(','))
-        newPerson.drinkVal = (1/len(newPerson.drinks))
+        newPerson.drinkVal = (1/len(newPerson.drinks))+1/(len(people)**.3)
         newPerson.food = set(people[i*3+2].strip().split(','))
-        newPerson.foodVal = (1/len(newPerson.food))
+        newPerson.foodVal = (1/len(newPerson.food))+1/(len(people)**.3)
         peopleList.append(newPerson)
         for foodItem in newPerson.food:
             foodMap[foodItem][1]+=newPerson.foodVal
